@@ -1,5 +1,5 @@
 #!/bin/bash
-SQSQUEUE=%SQSQUEUE%
+SQSQUEUE=https://sqs.us-west-2.amazonaws.com/275430173160/poc-sqs-ec2-sqsQueue-Eis68M9R0Rpm
 REGION=%REGION%
 
 FILELOG=logs.txt
@@ -8,9 +8,7 @@ touch $FILELOG
 
 while sleep 5; do
 
-  JSON=$(aws sqs --output=json get-queue-attributes \
-    --queue-url $SQSQUEUE \
-    --attribute-names ApproximateNumberOfMessages --region $REGION)
+  JSON=$(aws sqs --output=json get-queue-attributes --queue-url $SQSQUEUE --attribute-names ApproximateNumberOfMessages --region $REGION)
   MESSAGES=$(echo "$JSON" | jq -r '.Attributes.ApproximateNumberOfMessages')
 
   printf $MESSAGES >> $FILELOG
