@@ -1,6 +1,6 @@
 #!/bin/bash
 SQSQUEUE=https://sqs.us-west-2.amazonaws.com/275430173160/poc-sqs-ec2-sqsQueue-Eis68M9R0Rpm
-REGION=%REGION%
+REGION=us-west-2
 
 FILELOG=logs.txt
 
