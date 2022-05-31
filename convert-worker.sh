@@ -1,5 +1,6 @@
 #!/bin/bash
 SQSQUEUE=%SQSQUEUE%
+REGION=%REGION%
 
 FILELOG=logs.txt
 
@@ -9,7 +10,7 @@ while sleep 5; do
 
   JSON=$(aws sqs --output=json get-queue-attributes \
     --queue-url $SQSQUEUE \
-    --attribute-names ApproximateNumberOfMessages)
+    --attribute-names ApproximateNumberOfMessages --region $REGION)
   MESSAGES=$(echo "$JSON" | jq -r '.Attributes.ApproximateNumberOfMessages')
 
   printf $MESSAGES >> $FILELOG
@@ -20,7 +21,7 @@ while sleep 5; do
 
   fi
 
-  JSON=$(aws sqs --output=json receive-message --queue-url $SQSQUEUE)
+  JSON=$(aws sqs --output=json receive-message --queue-url $SQSQUEUE --region $REGION)
   RECEIPT=$(echo "$JSON" | jq -r '.Messages[] | .ReceiptHandle')
   BODY=$(echo "$JSON" | jq -r '.Messages[] | .Body')
 
